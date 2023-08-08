@@ -3,23 +3,49 @@ import "./App.css";
 import data from "./data";
 import List from "./List";
 import React, { useEffect, useState } from "react";
+import ImageUploading from "react-images-uploading";
 
 function App() {
-  const [people, setPeople] = useState(null);
-  const [age, setAge] = useState(0);
+  const [people, setPeople] = useState([]);
+  // const [age, setAge] = useState(0);
+
+  useEffect(() => {
+    const storePeople = JSON.parse(localStorage.getItem("people"));
+    console.log(storePeople);
+    if (storePeople && storePeople.length > 0) {
+      setPeople(storePeople);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("people", JSON.stringify(people));
+  }, [people]);
+
+  //   function addBirthday(name, age, date) {
+  //     const newPerson = {
+  //       id: people.length + 1,
+  //       name: name,
+  //       age: age,
+  //       daysleft: calculateDaysLeft(date),
+  //     };
+  //     people.length > 0
+  //       ? setPeople([...people, newPerson])
+  //       : setPeople(newPerson);
+  //     console.log(newPerson);
+  //     console.log(people);
+  //   }
 
   function addBirthday(name, age, date) {
     const newPerson = {
       id: people.length + 1,
       name: name,
       age: age,
-      daysleft: calculateDaysLeft(date),
+      image: null,
+      daysLeft: calculateDaysLeft(date),
     };
-    people.length > 0
-      ? setPeople([...people, newPerson])
-      : setPeople(newPerson);
-    console.log(newPerson);
-    console.log(people.length);
+
+    setPeople([...people, newPerson]); // Add newPerson to the array
+    console.log(people);
   }
 
   const calculateDaysLeft = (birthday) => {
