@@ -7,19 +7,25 @@ import ImageUploading from "react-images-uploading";
 
 function App() {
   const [people, setPeople] = useState([]);
+  const [images, setImages] = React.useState([]);
   // const [age, setAge] = useState(0);
 
   useEffect(() => {
     const storePeople = JSON.parse(localStorage.getItem("people"));
+    const storeImage = JSON.parse(localStorage.getItem("images"));
     console.log(storePeople);
     if (storePeople && storePeople.length > 0) {
       setPeople(storePeople);
     }
+    if (storeImage && storeImage.length > 0) {
+      setPeople(storeImage);
+    }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("people", JSON.stringify(people));
-  }, [people]);
+    localStorage.setItem("people", JSON.stringify("people"));
+    localStorage.setItem("images", JSON.stringify(images));
+  }, [images, people]);
 
   //   function addBirthday(name, age, date) {
   //     const newPerson = {
@@ -40,7 +46,7 @@ function App() {
       id: people.length + 1,
       name: name,
       age: age,
-      image: null,
+      image: images,
       daysLeft: calculateDaysLeft(date),
     };
 
@@ -58,6 +64,14 @@ function App() {
     const timeDifference = birthdayDate - today;
     const daysLeft = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
     return daysLeft;
+  };
+
+  const onChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      console.log(e.target.files);
+      // const newImageURL.createObjectURL(e.target.files[0]));
+      setImages(URL.createObjectURL(e.target.files[0]));
+    }
   };
 
   return (
@@ -100,6 +114,8 @@ function App() {
                 name="date"
                 defaultValue=""
               />
+              <input type="file" name="file" onChange={onChange} />
+
               <button type="submit"> Add Birthday</button>
             </form>
           </>
