@@ -7,24 +7,24 @@ import ImageUploading from "react-images-uploading";
 
 function App() {
   const [people, setPeople] = useState([]);
-  const [images, setImages] = React.useState([]);
+  const [images, setImages] = useState([]);
   // const [age, setAge] = useState(0);
 
   useEffect(() => {
-    const storePeople = JSON.parse(localStorage.getItem("people"));
-    const storeImage = JSON.parse(localStorage.getItem("images"));
+    const storePeople = JSON.parse(localStorage.getItem(people));
+    // const storeImage = JSON.parse(localStorage.getItem("images"));
     console.log(storePeople);
     if (storePeople && storePeople.length > 0) {
       setPeople(storePeople);
     }
-    if (storeImage && storeImage.length > 0) {
-      setPeople(storeImage);
-    }
+    // if (storeImage && storeImage.length > 0) {
+    //   setImages(storeImage);
+    // }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("people", JSON.stringify("people"));
-    localStorage.setItem("images", JSON.stringify(images));
+    // localStorage.setItem("images", JSON.stringify(images));
   }, [images, people]);
 
   //   function addBirthday(name, age, date) {
@@ -154,6 +154,8 @@ function App() {
                 name="date"
                 defaultValue=""
               />
+
+              <input type="file" name="file" onChange={onChange} />
               <button type="submit"> Add Birthday</button>
             </form>
           </>
